@@ -65,10 +65,12 @@ public class DaoGeneric<E> {
 		return lista;
 	}
 	
-	/*
+	/*get Entity manager dentro do DAO para fazer coisas fora do DAO, 
+	 * mas utilizar aparte de persistência que foi criada dentro DAO*/
+	
 	public EntityManager getEntityManager()  {
 		return entityManager;
-	}   */
+	}   
 
 }
 

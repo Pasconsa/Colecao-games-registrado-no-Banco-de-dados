@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import dao.DaoGeneric;
 import model.Console;
+import model.Games;
 
 
 public class TesteHibernate {
@@ -16,10 +17,11 @@ public class TesteHibernate {
 		
 		Console console = new Console ();
 		
-		console.setAConsole("Super Nintendo");
+		console.setaConsole("Super Nintendo");
 		console.setFabricante("Nintendo");
-		console.setAnoLancamento("1991");
+		console.setAnoLancamento("1990");
 		console.setTipoMidia("Cartucho");
+		console.setGeracao("4º");
 	
 		daoGeneric.salvar(console);
 
@@ -30,7 +32,7 @@ public class TesteHibernate {
 	public void testeBuscar() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 
-		Console videogame = daoGeneric.pesquisar(1L, Console.class);
+		Console videogame = daoGeneric.pesquisar(0L, Console.class);
 
 		System.out.println(videogame);
 
@@ -41,9 +43,9 @@ public class TesteHibernate {
 	public void testeUpdate() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 
-		Console videogame = daoGeneric.pesquisar(1L, Console.class);
+		Console videogame = daoGeneric.pesquisar(2L, Console.class);
 
-		videogame.setAConsole("Super Nintendo");
+		videogame.setaConsole("Super Nintendo");
 		videogame.setFabricante("Nintendo");
 		videogame.setAnoLancamento("1990");
 		videogame.setTipoMidia("Cartucho");
@@ -57,9 +59,9 @@ public class TesteHibernate {
 	
 	@Test
 	public void testeDelete() {
-		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
+		DaoGeneric<Games> daoGeneric = new DaoGeneric<Games>();
 
-		Console videogame = daoGeneric.pesquisar(1L, Console.class);
+		Games videogame = daoGeneric.pesquisar(11L, Games.class);
 
 		daoGeneric.deletarPoId(videogame);
 
@@ -78,109 +80,115 @@ public class TesteHibernate {
 		}
 	}
 
-	/*
+	//---------------------------------------------------------------------------------------
+	
 	@Test
 	public void testeQueryList() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> list = daoGeneric.getEntityManager().createQuery("from UsuarioPessoa").getResultList();
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
+		List<Console> list = daoGeneric.getEntityManager().createQuery("from Console").getResultList();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
-			System.out.println(usuarioPessoa);
+		for (Console console : list) {
+			System.out.println(console);
 		}
 	}
 
 	@Test
 	public void testeQueryListMaxResult() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> list = daoGeneric.getEntityManager().createQuery("from UsuarioPessoa order by idade") // ordenar
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
+		List<Console> list = daoGeneric.getEntityManager().createQuery("from Console order by anoLancamento") // ordenar
 																													// por
 																													// idade
-				.setMaxResults(3).getResultList();
+				.setMaxResults(2).getResultList();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
-			System.out.println(usuarioPessoa);
+		for (Console console : list) {
+			System.out.println(console);
 		}
 
 	}
-
+	
 	@Test // Parametros de Querry condicionais or , and dois tem que ser verdadeiro
 	public void testeQueryListParameter() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 
-		List<UsuarioPessoa> list = daoGeneric.getEntityManager()
-				.createQuery("from UsuarioPessoa where nome = :nome and sobrenome = :sobrenome")
-				.setParameter("nome", "Saulo").setParameter("sobrenome", "Pascon").getResultList();
+		List<Console> list = daoGeneric.getEntityManager()
+				.createQuery("from Console where aConsole = :aConsole and fabricante = :fabricante")
+				.setParameter("aConsole", "Super Nintendo").setParameter("fabricante", "Nintendo").getResultList();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
-			System.out.println(usuarioPessoa);
+		for (Console console : list) {
+			System.out.println(console);
 		}
 	}
-
+	/* Operação matematica
 	@Test
 	public void testeQuerySomaIdade() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 
 		Long somaIdade = (Long) daoGeneric.getEntityManager().createQuery("select sum(u.idade) from UsuarioPessoa u")
 				.getSingleResult();
 
 		System.out.println("Soma de todas as idades é  -->" + somaIdade);
 	}
+	*/
 
 	// ----------------------NamedQuerry-----------------------
 
 	@Test
 	public void testeNameQuery1() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> list = daoGeneric.getEntityManager().createNamedQuery("UsuarioPessoa.todos")
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
+		List<Console> list = daoGeneric.getEntityManager().createNamedQuery("Console.todos")
 				.getResultList();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
-			System.out.println(usuarioPessoa);
+		for (Console console : list) {
+			System.out.println(console);
 		}
 	}
 
 	@Test
 	public void testeNameQuery2() {
-		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> list = daoGeneric.getEntityManager().createNamedQuery("UsuarioPessoa.buscaPorNome")
-				.setParameter("nome", "Saulo").getResultList();
+		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
+		List<Console> list = daoGeneric.getEntityManager().createNamedQuery("Console.buscaPorConsole")
+				.setParameter("aConsole", "Nintendo 64").getResultList();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
-			System.out.println(usuarioPessoa);
+		for (Console console : list) {
+			System.out.println(console);
 		}
 	}
-
+//--------------------Gravar a consultar classe Games------------------------------
 	@Test
-	public void testeGravaTelefone() {
+	public void testeGravaGames() {
 		DaoGeneric daoGeneric = new DaoGeneric();
 
-		UsuarioPessoa pessoa = (UsuarioPessoa) daoGeneric.pesquisar(2L, UsuarioPessoa.class);
+		Console console = (Console) daoGeneric.pesquisar(2L, Console.class);
 
-		TelefoneUser telefoneUser = new TelefoneUser();
+		Games games = new Games();
 
-		telefoneUser.setTipo("casa");
-		telefoneUser.setNumero("19 34058888 ");
-		telefoneUser.setUsuarioPessoa(pessoa);
+		games.setAno("1992");
+		games.setGenero("Luta");
+		games.setAjogo("Street Fighter 2");
+		games.setProdutora("Capcom");
+		games.setConsole(console);
 
-		daoGeneric.salvar(telefoneUser);
+		daoGeneric.salvar(games);
 
 	}
 
 	@Test
-	public void testeConsultaTelefone() {
+	public void testeConsultaGames() {
 		DaoGeneric daoGeneric = new DaoGeneric();
 
-		UsuarioPessoa pessoa = (UsuarioPessoa) daoGeneric.pesquisar(2L, UsuarioPessoa.class);
+		Console console = (Console) daoGeneric.pesquisar(2L, Console.class);
 
-		for (TelefoneUser fone : pessoa.getTelefoneUsers()) {
-			System.out.println(fone.getNumero());
-			System.out.println(fone.getTipo());
-			System.out.println(fone.getUsuarioPessoa().getNome());
+		for (Games game : console.getGames()) {
+			System.out.println(game.getAjogo());
+			System.out.println(game.getGenero());
+			System.out.println(game.getProdutora());
+			System.out.println(game.getAno());
+			System.out.println(game.getConsole().getaConsole());
 			System.out.println("----------------------------");
 
 		}
 
 	}
-*/
+
 }
 

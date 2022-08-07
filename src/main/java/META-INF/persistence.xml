@@ -8,6 +8,7 @@
 <persistence-unit name="colection-games-hibernate">
 
 <class>model.Console</class>
+<class>model.Games</class>
 
 	
 		<properties>
