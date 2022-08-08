@@ -14,31 +14,31 @@ public class TesteHibernate {
 	public void testeHibernateUtil() {
 
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
-		
-		Console console = new Console ();
-		
-		console.setaConsole("Super Nintendo");
-		console.setFabricante("Nintendo");
-		console.setAnoLancamento("1990");
-		console.setTipoMidia("Cartucho");
-		console.setGeracao("4º");
-	
+
+		Console console = new Console();
+
+		console.setaConsole("Dreamcast");
+		console.setFabricante("Sega");
+		console.setAnoLancamento("1998");
+		console.setTipoMidia("Gd");
+		console.setGeracao("6º");
+
 		daoGeneric.salvar(console);
 
 	}
 
-	//Metodo Buscar uma informação
+	// Metodo Buscar uma informação
 	@Test
 	public void testeBuscar() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 
-		Console videogame = daoGeneric.pesquisar(0L, Console.class);
+		Console videogame = daoGeneric.pesquisar(2L, Console.class);
 
 		System.out.println(videogame);
 
 	}
-	
-	//Metodo atualizar e salvar
+
+	// Metodo atualizar e salvar
 	@Test
 	public void testeUpdate() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
@@ -49,6 +49,8 @@ public class TesteHibernate {
 		videogame.setFabricante("Nintendo");
 		videogame.setAnoLancamento("1990");
 		videogame.setTipoMidia("Cartucho");
+		videogame.setGeracao("4º");
+
 
 		videogame = daoGeneric.updateMerge(videogame);
 
@@ -56,7 +58,6 @@ public class TesteHibernate {
 
 	}
 
-	
 	@Test
 	public void testeDelete() {
 		DaoGeneric<Games> daoGeneric = new DaoGeneric<Games>();
@@ -67,7 +68,7 @@ public class TesteHibernate {
 
 	}
 
-	//consultar todos os dados do banco e imprimir no java
+	// consultar todos os dados do banco e imprimir no java
 	@Test
 	public void testeConsultar() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
@@ -80,8 +81,8 @@ public class TesteHibernate {
 		}
 	}
 
-	//---------------------------------------------------------------------------------------
-	
+	// ---------------------------------------------------------------------------------------
+
 	@Test
 	public void testeQueryList() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
@@ -96,8 +97,8 @@ public class TesteHibernate {
 	public void testeQueryListMaxResult() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
 		List<Console> list = daoGeneric.getEntityManager().createQuery("from Console order by anoLancamento") // ordenar
-																													// por
-																													// idade
+																												// por
+																												// idade
 				.setMaxResults(2).getResultList();
 
 		for (Console console : list) {
@@ -105,7 +106,7 @@ public class TesteHibernate {
 		}
 
 	}
-	
+
 	@Test // Parametros de Querry condicionais or , and dois tem que ser verdadeiro
 	public void testeQueryListParameter() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
@@ -118,25 +119,24 @@ public class TesteHibernate {
 			System.out.println(console);
 		}
 	}
-	/* Operação matematica
-	@Test
-	public void testeQuerySomaIdade() {
-		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
-
-		Long somaIdade = (Long) daoGeneric.getEntityManager().createQuery("select sum(u.idade) from UsuarioPessoa u")
-				.getSingleResult();
-
-		System.out.println("Soma de todas as idades é  -->" + somaIdade);
-	}
-	*/
+	/*
+	 * Operação matematica
+	 * 
+	 * @Test public void testeQuerySomaIdade() { DaoGeneric<Console> daoGeneric =
+	 * new DaoGeneric<Console>();
+	 * 
+	 * Long somaIdade = (Long) daoGeneric.getEntityManager().
+	 * createQuery("select sum(u.idade) from UsuarioPessoa u") .getSingleResult();
+	 * 
+	 * System.out.println("Soma de todas as idades é  -->" + somaIdade); }
+	 */
 
 	// ----------------------NamedQuerry-----------------------
 
 	@Test
 	public void testeNameQuery1() {
 		DaoGeneric<Console> daoGeneric = new DaoGeneric<Console>();
-		List<Console> list = daoGeneric.getEntityManager().createNamedQuery("Console.todos")
-				.getResultList();
+		List<Console> list = daoGeneric.getEntityManager().createNamedQuery("Console.todos").getResultList();
 
 		for (Console console : list) {
 			System.out.println(console);
@@ -153,19 +153,20 @@ public class TesteHibernate {
 			System.out.println(console);
 		}
 	}
+
 //--------------------Gravar a consultar classe Games------------------------------
 	@Test
 	public void testeGravaGames() {
 		DaoGeneric daoGeneric = new DaoGeneric();
 
-		Console console = (Console) daoGeneric.pesquisar(2L, Console.class);
+		Console console = (Console) daoGeneric.pesquisar(17L, Console.class);
 
 		Games games = new Games();
 
-		games.setAno("1992");
-		games.setGenero("Luta");
-		games.setAjogo("Street Fighter 2");
-		games.setProdutora("Capcom");
+		games.setAno("1991");
+		games.setGenero("Aventura");
+		games.setAjogo("Sonic");
+		games.setProdutora("Sega");
 		games.setConsole(console);
 
 		daoGeneric.salvar(games);
@@ -176,7 +177,7 @@ public class TesteHibernate {
 	public void testeConsultaGames() {
 		DaoGeneric daoGeneric = new DaoGeneric();
 
-		Console console = (Console) daoGeneric.pesquisar(2L, Console.class);
+		Console console = (Console) daoGeneric.pesquisar(17L, Console.class);
 
 		for (Games game : console.getGames()) {
 			System.out.println(game.getAjogo());
@@ -185,10 +186,10 @@ public class TesteHibernate {
 			System.out.println(game.getAno());
 			System.out.println(game.getConsole().getaConsole());
 			System.out.println("----------------------------");
-
 		}
-
 	}
+
+
 
 }
 

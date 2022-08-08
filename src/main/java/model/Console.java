@@ -31,7 +31,7 @@ private String tipoMidia;
 private String geracao;
 
 //para mapear os games no console
-@OneToMany(mappedBy = "console", fetch = FetchType.EAGER) //consultar os telefones por usuario
+@OneToMany(mappedBy = "console", fetch = FetchType.EAGER) //consultar os games por Console
 private List <Games> games;
 
 
